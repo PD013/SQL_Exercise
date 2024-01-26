@@ -65,3 +65,51 @@ WHERE Products.Manufacturer = Manufacturers.Code;
 
 -- 1.12 Select the average price of each manufacturer's products, showing only the manufacturer's code.
 SELECT Manufacturer,AVG(price) FROM Products GROUP BY Manufacturer;
+
+-- 1.13 Select the average price of each manufacturer's products, showing the manufacturer's name.
+SELECT AVG(P.Price),M.name FROM products P
+INNER JOIN manufacturers M
+ON M.code = P.Manufacturer
+GROUP BY P.Manufacturer;
+# Inner joins combine records from two tables whenever there are matching values in a field common to both tables
+
+ /* Without Joins */
+SELECT AVG(P.Price),M.name FROM products P , manufacturers M
+WHERE M.code = P.Manufacturer
+GROUP BY P.Manufacturer;
+
+
+-- 1.14 Select the names of manufacturer whose products have an average price larger than or equal to $150.
+SELECT AVG(P.Price) as average,M.name FROM products P
+INNER JOIN manufacturers M
+ON M.code = P.Manufacturer
+GROUP BY P.Manufacturer
+HAVING average >= 150; # This is the only extra line required too add in any of the above 2 answers to get same result
+
+-- 1.15 Select the name and price of the cheapest product.
+SELECT price, name 
+FROM products 
+ORDER BY price ASC
+LIMIT 1;
+
+/* With a nested SELECT */
+/* WARNING: If there is more than one item with the cheapest price it will select them both */
+SELECT price,name
+FROM products
+WHERE price = (SELECT MIN(price) FROM Products);
+
+
+-- 1.16 Select the name of each manufacturer along with the name and price of its most expensive product.
+SELECT M.name , P.name , P.price
+FROM products P 
+INNER JOIN manufacturers M
+ON M.code = P.manufacturer
+AND P.Price = (
+SELECT MAX(P.Price)
+FROM products P 
+WHERE P.Manufacturer = M.Code);
+
+-- 1.17 Add a new product: Loudspeakers, $70, manufacturer 2.
+-- 1.18 Update the name of product 8 to "Laser Printer".
+-- 1.19 Apply a 10% discount to all products.
+-- 1.20 Apply a 10% discount to all products with a price larger than or equal to $120.
