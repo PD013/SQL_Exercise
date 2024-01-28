@@ -110,6 +110,31 @@ FROM products P
 WHERE P.Manufacturer = M.Code);
 
 -- 1.17 Add a new product: Loudspeakers, $70, manufacturer 2.
+INSERT INTO products (Code ,Name , Price , Manufacturer)
+VALUES (11, 'Loudspeakers',70,2); 
+
 -- 1.18 Update the name of product 8 to "Laser Printer".
+UPDATE products 
+SET Name = 'Laser Printer'
+WHERE Code = 8;
+
+SELECT * FROM products;
+
 -- 1.19 Apply a 10% discount to all products.
+UPDATE products
+SET Price = Price*0.9;
+# SET Price = Price - (Price * 0.1); Another way
+
 -- 1.20 Apply a 10% discount to all products with a price larger than or equal to $120.
+UPDATE products
+SET Price = Price*0.9
+WHERE Price >= 120;
+
+
+-- 1.21  Select the name of each manufacturer which have an average price above $145 and contain at least 2 different products.
+Select m.Name, Avg(p.price) as p_price, COUNT(p.Manufacturer) as m_count
+FROM Manufacturers m, Products p
+WHERE p.Manufacturer = m.code
+GROUP BY m.Name , p.Manufacturer
+HAVING Avg(p.price) >= 150 and COUNT(p.Manufacturer) >= 2;
+# Here answer is not coming cause we have updated the tables so no worries it will work fine
