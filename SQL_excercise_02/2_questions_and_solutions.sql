@@ -105,10 +105,55 @@ SELECT Departments.Name
 
 
 -- 2.15 Very Important - Select the name and last name of employees working for departments with second lowest budget.
+SELECT name , lastname FROM Employees
+WHERE department  = (SELECT Code FROM Departments ORDER BY BUDGET ASC LIMIT 1 OFFSET 1 );
+
 -- 2.16  Add a new department called "Quality Assurance", with a budget of $40,000 and departmental code 11. 
+INSERT INTO Departments(code , Name , Budget)
+VALUES(11,"Quality Assurance",40000);
+
+
 -- And Add an employee called "Mary Moore" in that department, with SSN 847-21-9811.
+INSERT INTO Employees
+  VALUES ( '847219811' , 'Mary' , 'Moore' , 11);
+
 -- 2.17 Reduce the budget of all departments by 10%.
+UPDATE Departments
+SET Budget = Budget * 0.9;
+
 -- 2.18 Reassign all employees from the Research department (code 77) to the IT department (code 14).
+UPDATE Employees 
+SET Department = 14
+WHERE Department = 77;
+
 -- 2.19 Delete from the table all employees in the IT department (code 14).
+DELETE FROM Employees where department = 14;
+
 -- 2.20 Delete from the table all employees who work in departments with a budget greater than or equal to $60,000.
+DELETE FROM Employees where department = (SELECT code FROM Departments WHERE Budget >= 60000);
+
+# Another Way Using IN
+DELETE FROM Employees
+  WHERE Department IN
+  (
+    SELECT Code FROM Departments
+      WHERE Budget >= 60000
+  );
+
+
+
+SELECT * FROM employees;
+
 -- 2.21 Delete from the table all employees.
+
+TRUNCATE TABLE Employees;
+
+/* Sure, here's a more concise explanation:
+
+`TRUNCATE TABLE` and `DELETE FROM` are SQL commands used to remove data from a table.
+ The key difference lies in their approach.
+ `TRUNCATE TABLE` quickly deletes all rows from a table without much logging, making it faster for large tables, but it cannot be rolled back. 
+ On the other hand, `DELETE FROM` allows for conditional deletion using a `WHERE` clause and can be rolled back within a transaction, but it might be slower due to more logging.
+ Use `TRUNCATE TABLE` when you want to swiftly delete all rows, and `DELETE FROM` when you need more control over which rows to delete or if you need the operation to be transactional. /*
+--- VERY IMP QUESTION FOR INTERVIEWs
+DELETE FROM Employees;
