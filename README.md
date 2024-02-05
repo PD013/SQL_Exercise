@@ -2,9 +2,9 @@
 Schemas, Questions &amp; Solutions for SQL Exercising
 
 ## Introduction
-The schemas and questions are 
-
-[1] from Wikibook **SQL Exercises** [https://en.wikibooks.org/wiki/SQL_Exercises].
+The schemas and questions are
+from Wikibook **SQL Exercises** [https://en.wikibooks.org/wiki/SQL_Exercises].
+Also added some extra questions  
 Credits to Xiaodong DENG XD-DENG
 
 ## Repository Structure
