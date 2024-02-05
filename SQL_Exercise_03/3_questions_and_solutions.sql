@@ -84,11 +84,43 @@ DELETE FROM Boxes
 WHERE value < 100;
 
 -- 3.15 Remove all boxes from saturated warehouses.
+ DELETE FROM Boxes 
+  WHERE Warehouse IN 
+  (
+   SELECT * FROM 
+     (
+       SELECT Code
+	 FROM Warehouses
+	 WHERE Capacity <
+           (
+                SELECT COUNT(*)
+		  FROM Boxes
+		  WHERE Warehouse = Warehouses.Code
+            )
+      ) AS Bxs
+  );
+
+-- ## Syntax for CREATE INDEX
+-- #  CREATE INDEX index_name // There is also UNIQUE INDEX 
+-- #  ON table_name (column1, column2, ...);
+
+# Syntax to Delete the Index / Also Index is not visible use for fast searching by system
+-- ALTER TABLE table_name
+-- DROP INDEX index_name;
 
 
 -- 3.16 Add Index for column "Warehouse" in table "boxes"
     -- !!!NOTE!!!: index should NOT be used on small tables in practice
+CREATE INDEX INDEX_WAREHOUSE100 ON Boxes (code);
+    
 -- 3.17 Print all the existing indexes
     -- !!!NOTE!!!: index should NOT be used on small tables in practice
--- 3.18 Remove (drop) the index you added just
+SHOW INDEXES FROM Boxes; 
+SHOW INDEX FROM SQL_Exercise.Boxes;
+    
+-- 3.18 Remove (drop) the index you added just  ## PENDING PARTT  ## -------=================
+
     -- !!!NOTE!!!: index should NOT be used on small tables in practice
+ALTER TABLE boxes DROP FOREIGN KEY boxes_ibfk_1; -- when creating Index on a key then it cannot be deleted easily
+DROP INDEX INDEX_WAREHOUSE1 ON boxes;
+SHOW CREATE TABLE boxes; ## THIS IS PENDING QUESTION 
