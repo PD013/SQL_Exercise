@@ -87,10 +87,15 @@ INSERT INTO Provides VALUES(1,'TNBC', 7);
 
 -- 5.8 Increase all prices by one cent.
 update provides 
-SET price = price * 1.1
+SET price = price * 1.1;
 
 -- 5.9 Update the database to reflect that "Susan Calvin Corp." (code "RBT") will not supply bolts (code 4).
-
+DELETE FROM provides 
+WHERE provider = 'RBT'
+AND piece = '4';
 
 -- 5.10 Update the database to reflect that "Susan Calvin Corp." (code "RBT") will not supply any pieces 
     -- (the provider should still remain in the database).
+DELETE FROM Provides
+   WHERE Provider = 'RBT';    
+
